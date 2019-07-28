@@ -20,18 +20,21 @@
     </transition>
     <setting-font></setting-font>
     <ebook-font-family-option></ebook-font-family-option>
+    <ebook-setting-theme></ebook-setting-theme>
   </div>
 </template>
 
 <script>
 import SettingFont from './setting-font'
 import EbookFontFamilyOption from './ebook-font-family-option'
+import EbookSettingTheme from './ebook-setting-theme' 
 import {EbookMixins} from '../../utils/map-getter-utils'
 export default {
   name: "EbookMenu",
   components:{
       SettingFont,
-      EbookFontFamilyOption
+      EbookFontFamilyOption,
+      EbookSettingTheme
   },
   methods:{
       showSetting(key){

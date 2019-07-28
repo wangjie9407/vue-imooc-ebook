@@ -13,7 +13,9 @@ const ebook = {
     // 默认选中字体
     defaultFontFamily:'Default',
     // 字体选项栏显隐状态
-    fontFamilyVisible:false
+    fontFamilyVisible:false,
+    // 默认主题
+    defaultTheme:'Default'
   },
   mutations: {
     SET_FILENAME (state, filename) {
@@ -34,6 +36,9 @@ const ebook = {
     },
     SET_DEFAULTFONTSIZE (state, defaultFontSize) {
       state.defaultFontSize = defaultFontSize
+    },
+    SET_DEFAULTTHEME (state, defaultTheme) {
+      state.defaultTheme = defaultTheme
     },
     SET_CURRENTBOOK (state, currentBook) {
       state.currentBook = currentBook
@@ -58,6 +63,9 @@ const ebook = {
     setDefaultFontSize: ({commit}, defaultFontSize) => {
       return  commit('SET_DEFAULTFONTSIZE', defaultFontSize)
     },
+    setDefaultTheme: ({commit}, defaultTheme) => {
+      return  commit('SET_DEFAULTTHEME', defaultTheme)
+    },
     setCurrentBook: ({commit}, currentBook) => {
       return  commit('SET_CURRENTBOOK', currentBook)
     },
@@ -75,7 +83,8 @@ const ebook = {
     defaultFontSize: state => state.defaultFontSize,
     currentBook: state => state.currentBook,
     defaultFontFamily: state => state.defaultFontFamily,
-    fontFamilyVisible: state => state.fontFamilyVisible
+    fontFamilyVisible: state => state.fontFamilyVisible,
+    defaultTheme: state => state.defaultTheme,
   }
 }
  export default ebook

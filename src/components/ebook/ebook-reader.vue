@@ -6,7 +6,7 @@
 
 <script>
   import EPub from 'epubjs'
-  import {FONT_FAMILY_LIST} from '../../assets/enum/font-size'
+  import {FONT_FAMILY_LIST, addCssFile} from '../../assets/enum/font-size'
   import {EbookMixins} from '../../utils/map-getter-utils'
   import {setBookStorage, getBookStorage, getLocalStorage, setLocalStorage} from '../../utils/localstorage'
 
@@ -58,6 +58,21 @@
           }
         }
       },
+      /**
+       * 格式化主题
+       */
+      initTheme(){
+        const theme = getLocalStorage('theme')
+        if (theme) {
+          this.themeList.forEach(theme => {
+               this.currentBook.rendition.themes.register(theme.name,theme.style)
+          })
+          this.currentBook.rendition.themes.select(theme.name)
+          addCssFile(`${process.env.VUE_APP_SOURCE_URL}theme/${theme.href}`)
+        } else {
+          setLocalStorage('theme',this.themeList[0])
+        }
+      },
       initEpub: function () {
         // 缓存this指向
         const that = this;
@@ -79,6 +94,7 @@
           this.initFont('fontSize', fontSize)
           let fontFamily = getBookStorage(this.fileName,'fontFamily')
           this.initFont('fontFamily', fontFamily)
+          this.initTheme()
         })
         // 获取手势起始状态
         this.rendition.on('touchstart', function(event) {
