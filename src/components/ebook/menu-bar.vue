@@ -21,6 +21,7 @@
     <setting-font></setting-font>
     <ebook-font-family-option></ebook-font-family-option>
     <ebook-setting-theme></ebook-setting-theme>
+    <ebook-setting-progress></ebook-setting-progress>
   </div>
 </template>
 
@@ -28,13 +29,16 @@
 import SettingFont from './setting-font'
 import EbookFontFamilyOption from './ebook-font-family-option'
 import EbookSettingTheme from './ebook-setting-theme' 
+import EbookSettingProgress from './ebook-setting-progress' 
+
 import {EbookMixins} from '../../utils/map-getter-utils'
 export default {
   name: "EbookMenu",
   components:{
       SettingFont,
       EbookFontFamilyOption,
-      EbookSettingTheme
+      EbookSettingTheme,
+      EbookSettingProgress
   },
   methods:{
       showSetting(key){

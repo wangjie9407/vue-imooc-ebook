@@ -11,7 +11,10 @@ export const EbookMixins = {
           'currentBook',
           'defaultFontFamily',
           'fontFamilyVisible',
-          'defaultTheme'
+          'defaultTheme',
+          'progress',
+          'bookAvailable',
+          'section'
           ]),
           themeList() {
             return themeList(this)
@@ -26,7 +29,10 @@ export const EbookMixins = {
             'setCurrentBook',
             'setFontFamilyVisible',
             'setDefaultFontFamily',
-            'setDefaultTheme'
+            'setDefaultTheme',
+            'setProgress',
+            'setBookAvailable',
+            'setSection'
         ])
     },
 }

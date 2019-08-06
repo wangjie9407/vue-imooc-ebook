@@ -73,29 +73,28 @@
           setLocalStorage('theme',this.themeList[0])
         }
       },
-      initEpub: function () {
-        // 缓存this指向
-        const that = this;
-        // 定义解析电子书的url
-        const url = `${process.env.VUE_APP_SOURCE_URL}epub/${this.fileName}.epub`
-        // 获取epub对象
-        this.book = new EPub(url)
-        this.setCurrentBook(this.book)
-        // 渲染电子书
-        this.rendition = this.book.renderTo('ebook',
-          {
-            width: innerWidth,
-            height: innerHeight,
-            method: 'default'
+      /**
+       * 格式化进度
+       */
+      initProgress(){
+        const section = getBookStorage(this.fileName,'section')
+        const progress = getBookStorage(this.fileName,'progress')
+        if(section > 0){
+          const sectionInfo = this.currentBook.section(section)
+          if(sectionInfo && sectionInfo.href){
+            this.currentBook.rendition.display(sectionInfo.href)
           }
-        )
-        this.rendition.display().then(rendition => {
-          let fontSize = getBookStorage(this.fileName,'fontSize')
-          this.initFont('fontSize', fontSize)
-          let fontFamily = getBookStorage(this.fileName,'fontFamily')
-          this.initFont('fontFamily', fontFamily)
-          this.initTheme()
-        })
+        }
+        if(progress>0){
+          const cfi = this.currentBook.locations.cfiFromPercentage(progress / 100)
+          this.currentBook.rendition.display(cfi)
+        }
+      },
+      /**
+       * 设置手势事件
+       */
+      initGesture(){
+        const that = this
         // 获取手势起始状态
         this.rendition.on('touchstart', function(event) {
           this.touchStartX = event.changedTouches[0].clientX
@@ -124,12 +123,57 @@
             event.stopPropagation();
           }
         })
+      },
+      /**
+       * 动态添加字体为电子书
+       */
+      addCssFiles(){
         this.rendition.hooks.content.register(content => {
           FONT_FAMILY_LIST.forEach(item => {
             if(item.font !== 'Default'){
               content.addStylesheet(`${process.env.VUE_APP_SOURCE_URL}fonts/${item.font}.css`)
             }
           })
+        })
+      },
+      initEpub: function () {
+        // 缓存this指向
+        const that = this;
+        // 定义解析电子书的url
+        const url = `${process.env.VUE_APP_SOURCE_URL}epub/${this.fileName}.epub`
+        // 获取epub对象
+        this.book = new EPub(url)
+        this.setCurrentBook(this.book)
+        // 渲染电子书
+        this.rendition = this.book.renderTo('ebook',
+          {
+            width: innerWidth,
+            height: innerHeight,
+            method: 'default'
+          }
+        )
+        // 在创建电子书对象时读取缓存初始化对象
+        this.rendition.display().then(rendition => {
+          let fontSize = getBookStorage(this.fileName,'fontSize')
+        // 初始化电子式字号
+          this.initFont('fontSize', fontSize)
+          let fontFamily = getBookStorage(this.fileName,'fontFamily')
+          // 初始化电子书字体
+          this.initFont('fontFamily', fontFamily)
+          // 初始化主题
+          this.initTheme()
+          // 初始化进度
+          this.initProgress()
+        })
+        // 添加绑定手势事件
+        this.initGesture()
+        // 动态添加字体样式文件
+        this.addCssFiles()
+        // 添加分页功能
+        this.book.ready.then( () => {
+          return this.book.locations.generate(750 * (window.innerWidth/375) * getBookStorage(this.fileName,'fontSize') / 16)
+        }).then((locations) => {
+          this.setBookAvailable(true)
         })
       },
     },

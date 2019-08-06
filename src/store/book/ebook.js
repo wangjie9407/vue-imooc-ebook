@@ -15,40 +15,84 @@ const ebook = {
     // 字体选项栏显隐状态
     fontFamilyVisible:false,
     // 默认主题
-    defaultTheme:'Default'
+    defaultTheme:'Default',
+    // 进度
+    progress: 0,
+    bookAvailable:false,
+    // 章节
+    section:0
   },
   mutations: {
+    /**
+     * 设置电子书名称
+     */
     SET_FILENAME (state, filename) {
       state.fileName = filename
     },
+    /**
+     * 设置菜单可见
+     */
     SET_MENUVISIBLE (state, menuVisible) {
 		if(!menuVisible){
 			state.settingVisible = -1
 		}
 		state.menuVisible = menuVisible
     },
+    /**
+     * 设置功能可见
+     */
     SET_SETTINGVISIBLE (state, settingVisible) {
-		if(state.settingVisible === settingVisible){
-			state.settingVisible = -1
-		}else{
-			state.settingVisible = settingVisible
-		}
+		  if(state.settingVisible === settingVisible){
+		  	state.settingVisible = -1
+		  }else{
+		  	state.settingVisible = settingVisible
+		  }
     },
+    /**
+     * 设置字体
+     */
     SET_DEFAULTFONTSIZE (state, defaultFontSize) {
       state.defaultFontSize = defaultFontSize
     },
+    /**
+     * 设置默认主题
+     */
     SET_DEFAULTTHEME (state, defaultTheme) {
       state.defaultTheme = defaultTheme
     },
+    /**
+     * 设置当前电子书对象
+     */
     SET_CURRENTBOOK (state, currentBook) {
       state.currentBook = currentBook
     },
+    /**
+     * 设置字体菜单可见
+     */
     SET_FONTFAMILYVISIBLE (state, fontFamilyVisible) {
       state.fontFamilyVisible = fontFamilyVisible
     },
+    /**
+     * 设置默认字体
+     */
     SET_DEFAULTFONTFAMILY (state, defaultFontFamily) {
       state.defaultFontFamily = defaultFontFamily
-    }
+    },
+    /**
+     * 设置进度
+     */
+    SET_PROGRESS (state, progress) {
+      state.progress = progress
+    },
+    SET_BOOKAVAILABLE (state, bookAvailable) {
+      state.bookAvailable = bookAvailable
+    },
+    /**
+     * 设置章节
+     */
+    SET_SECTION (state, section) {
+      state.section = section
+    },
   },
   actions: {
     setFileName: ({commit}, filename) => {
@@ -75,6 +119,15 @@ const ebook = {
     setDefaultFontFamily: ({commit}, defaultFontFamily) => {
       return  commit('SET_DEFAULTFONTFAMILY', defaultFontFamily)
     },
+    setProgress: ({commit}, progress) => {
+      return  commit('SET_PROGRESS', progress)
+    },
+    setBookAvailable: ({commit}, bookAvailable) => {
+      return  commit('SET_BOOKAVAILABLE', bookAvailable)
+    },
+    setSection: ({commit}, section) => {
+      return  commit('SET_SECTION', section)
+    },
   },
   getters:{
     fileName : state => state.fileName,
@@ -85,6 +138,9 @@ const ebook = {
     defaultFontFamily: state => state.defaultFontFamily,
     fontFamilyVisible: state => state.fontFamilyVisible,
     defaultTheme: state => state.defaultTheme,
+    progress: state => state.progress,
+    bookAvailable: state => state.bookAvailable,
+    section: state => state.section,
   }
 }
  export default ebook
