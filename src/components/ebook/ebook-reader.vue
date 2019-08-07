@@ -80,12 +80,14 @@
         const section = getBookStorage(this.fileName,'section')
         const progress = getBookStorage(this.fileName,'progress')
         if(section > 0){
+          this.setSection(section)
           const sectionInfo = this.currentBook.section(section)
           if(sectionInfo && sectionInfo.href){
             this.currentBook.rendition.display(sectionInfo.href)
           }
         }
         if(progress>0){
+          this.setProgress(progress)
           const cfi = this.currentBook.locations.cfiFromPercentage(progress / 100)
           this.currentBook.rendition.display(cfi)
         }

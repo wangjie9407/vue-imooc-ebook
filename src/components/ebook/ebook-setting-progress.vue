@@ -23,6 +23,7 @@
                 </div>
           </div>
           <div class="text-wrapper">
+            <span class="section-name">{{sectionName}}</span>
             <span>{{bookAvailable ? progress + '%' : '加载中...'}}</span>
           </div>
         </div>
@@ -65,7 +66,9 @@
               setBookStorage(this.fileName,'section',this.section)
               const sectionInfo = this.currentBook.section(this.section)
               if(sectionInfo && sectionInfo.href){
-                this.currentBook.rendition.display(sectionInfo.href)
+                this.currentBook.rendition.display(sectionInfo.href).then(() => {
+                  this.refreshLocation()
+                })
               }
             },
             /**
@@ -82,6 +85,7 @@
              * 下一章
              */
             nextSection(){
+              debugger
               if(this.section < this.currentBook.spine.length){
                 this.setSection(this.section+1).then(() => {
                   this.displaySection()
@@ -95,9 +99,33 @@
                 this.setProgress(progress).then(()=>{
                     this.updateProgressBgSize()
                 })
-            }
+            },
+            /**
+             * 刷新进度
+             */
+             refreshLocation(){
+               const currentLocation = this.currentBook.rendition.currentLocation()
+               const currentProgress = this.currentBook.locations.percentageFromCfi(currentLocation.start.cfi)
+               this.setProgress(Math.floor(currentProgress * 100))
+             },
+             
         },
         mixins: [EbookMixins],
+        computed: {
+          /**
+          * 获取章节名称
+          */
+          sectionName (val) {
+            let sectionName = ''
+           if(this.section){
+             const sectionInfo = this.currentBook.section(this.section)
+             if(sectionInfo && sectionInfo.href){
+               sectionName = this.currentBook.navigation.get(sectionInfo.href).label
+             }
+           }
+           return sectionName
+         }
+        },
     }
 </script>
 
@@ -161,7 +189,11 @@
           width: 100%;
           color: #333;
           font-size: px2rem(12);
-          text-align: center;
+          @include center;
+          padding: 0 15px;
+          .section-name{
+            @include ellipsis
+          }
         }
       }
   }
