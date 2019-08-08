@@ -20,7 +20,9 @@ const ebook = {
     progress: 0,
     bookAvailable:false,
     // 章节
-    section:0
+    section:0,
+    // 阅读时间
+    readTime:null
   },
   mutations: {
     /**
@@ -93,6 +95,12 @@ const ebook = {
     SET_SECTION (state, section) {
       state.section = section
     },
+    /**
+     * 设置阅读时间
+     */
+    SET_READTIME (state, readTime) {
+      state.readTime = readTime
+    },
   },
   actions: {
     setFileName: ({commit}, filename) => {
@@ -128,6 +136,9 @@ const ebook = {
     setSection: ({commit}, section) => {
       return  commit('SET_SECTION', section)
     },
+    setReadTime: ({commit}, readTime) => {
+      return  commit('SET_READTIME', readTime)
+    },
   },
   getters:{
     fileName : state => state.fileName,
@@ -141,6 +152,7 @@ const ebook = {
     progress: state => state.progress,
     bookAvailable: state => state.bookAvailable,
     section: state => state.section,
+    readTime: state => state.readTime,
   }
 }
  export default ebook

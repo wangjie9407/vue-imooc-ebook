@@ -3,7 +3,7 @@
       <div class="setting-wrapper" v-show="menuVisible && settingVisible === 2">
         <div class="setting-progress">
             <div class="read-time-wrapper">
-                <span class="read-time-text"> 123</span>    
+                <span class="read-time-text">{{$t('book.haveRead').replace('$1',readTime)}}</span>    
                 <span class="icon-forward"> </span>    
             </div>
           <div class="progress-wrapper">
@@ -47,17 +47,19 @@
                 })
             },
             /**
-             * 显示分页结果
-             */
-            displayProgress(){
-                const cfi = this.currentBook.locations.cfiFromPercentage(this.progress / 100)
-                this.currentBook.rendition.display(cfi)
-            },
-            /**
              * 设置已读进度背景色
              */
             updateProgressBgSize(){
                 this.$refs.progress.style.backgroundSize = `${this.progress}% 100%`
+            },
+            /**
+             * 显示分页结果
+             */
+            displayProgress(){
+                const cfi = this.currentBook.locations.cfiFromPercentage(this.progress / 100)
+                this.currentBook.rendition.display(cfi).then(() => {
+                  this.refreshLocation()
+                })
             },
             /**
              * 读取章节
@@ -85,7 +87,6 @@
              * 下一章
              */
             nextSection(){
-              debugger
               if(this.section < this.currentBook.spine.length){
                 this.setSection(this.section+1).then(() => {
                   this.displaySection()
@@ -100,14 +101,6 @@
                     this.updateProgressBgSize()
                 })
             },
-            /**
-             * 刷新进度
-             */
-             refreshLocation(){
-               const currentLocation = this.currentBook.rendition.currentLocation()
-               const currentProgress = this.currentBook.locations.percentageFromCfi(currentLocation.start.cfi)
-               this.setProgress(Math.floor(currentProgress * 100))
-             },
              
         },
         mixins: [EbookMixins],
@@ -124,7 +117,7 @@
              }
            }
            return sectionName
-         }
+         },
         },
     }
 </script>
