@@ -36,8 +36,8 @@ export default {
   },
   methods: {
     /*
-        切换菜单以及标题显示状态
-       */
+     切换菜单以及标题显示状态
+    */
     toggleMenuAndTitle: function() {
       this.setMenuVisible(!this.menuVisible);
     },
@@ -102,7 +102,6 @@ export default {
      * 设置手势事件
      */
     initGesture() {
-      const that = this;
       // 获取手势起始状态
       this.rendition.on("touchstart", event => {
         this.touchStartX = event.changedTouches[0].clientX;
@@ -116,21 +115,18 @@ export default {
         const offsetTime = this.touchEndTime - this.touchStatrtTime;
         if (offsetTime < 500) {
           if (offsetX > 40) {
-            console.log("this", this);
             this.rendition.next().then(() => {
               this.refreshLocation();
             });
-            that.setMenuVisible(false);
-            that.setFontFamilyVisible(false);
+            this.hideEbookMenu()
           } else if (offsetX < -40) {
             this.rendition.prev().then(() => {
               this.refreshLocation();
             });
-            that.setMenuVisible(false);
-            that.setFontFamilyVisible(false);
+            this.hideEbookMenu()
           } else {
-            that.setFontFamilyVisible(false);
-            that.toggleMenuAndTitle();
+            this.setFontFamilyVisible(false);
+            this.toggleMenuAndTitle();
           }
           event.preventDefault();
           event.stopPropagation();
@@ -151,6 +147,20 @@ export default {
         });
       });
     },
+    /**
+     * 解析电子书
+     */
+    pareseBook(){
+      this.book.loaded.cover.then(cover => {
+        this.book.archive.createUrl(cover).then(cover => {
+          this.setCover(cover)
+          console.log('');
+        })
+      })
+    },
+    /**
+     * 初始化电子书
+     */
     initEpub: function() {
       // 缓存this指向
       const that = this;
@@ -176,8 +186,8 @@ export default {
         this.initFont("fontFamily", fontFamily);
         // 初始化主题
         this.initTheme();
-        // 初始化进度
-        // this.initProgress()
+        // 解析电子书
+        this.pareseBook();
       });
       // 添加绑定手势事件
       this.initGesture();
@@ -187,17 +197,14 @@ export default {
       this.book.ready
         .then(() => {
           return this.book.locations.generate(
-            (750 *
-              (window.innerWidth / 375) *
-              getBookStorage(this.fileName, "fontSize")) /
-              16
-          );
+            (750 * (window.innerWidth / 375) * getBookStorage(this.fileName, "fontSize")) / 16 );
         })
         .then(locations => {
           this.setBookAvailable(true);
           this.refreshLocation();
         });
-    }
+    },
+    
   },
   mounted() {
     if (

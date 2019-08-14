@@ -16,10 +16,15 @@ export const EbookMixins = {
       'progress',
       'bookAvailable',
       'section',
-      'readTime'
+      'readTime',
+      'cover'
     ]),
     themeList() {
       return themeList(this)
+    },
+    // 获取已读时间
+    getReadTime(){
+      return this.$t('book.haveRead').replace('$1',this.readTime)
     }
   },
   methods: {
@@ -35,7 +40,8 @@ export const EbookMixins = {
       'setProgress',
       'setBookAvailable',
       'setSection',
-      'setReadTime'
+      'setReadTime',
+      'setCover'
     ]),
     /**
      * 刷新进度，保证设置章节时，进度条会实时刷新
@@ -69,6 +75,14 @@ export const EbookMixins = {
             }
         })
       }
+    },
+    /**
+     * 隐藏菜单
+     */
+    hideEbookMenu(){
+      this.setMenuVisible(false);
+      this.setFontFamilyVisible(false);
+      this.setSettingVisible(-1)
     }
   },
 }

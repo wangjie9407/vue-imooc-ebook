@@ -22,6 +22,7 @@
     <ebook-font-family-option></ebook-font-family-option>
     <ebook-setting-theme></ebook-setting-theme>
     <ebook-setting-progress></ebook-setting-progress>
+    <ebook-slide></ebook-slide>
   </div>
 </template>
 
@@ -30,6 +31,7 @@ import SettingFont from './setting-font'
 import EbookFontFamilyOption from './ebook-font-family-option'
 import EbookSettingTheme from './ebook-setting-theme' 
 import EbookSettingProgress from './ebook-setting-progress' 
+import EbookSlide from './ebook-slide' 
 
 import {EbookMixins} from '../../utils/map-getter-utils'
 export default {
@@ -38,7 +40,8 @@ export default {
       SettingFont,
       EbookFontFamilyOption,
       EbookSettingTheme,
-      EbookSettingProgress
+      EbookSettingProgress,
+      EbookSlide
   },
   methods:{
       showSetting(key){

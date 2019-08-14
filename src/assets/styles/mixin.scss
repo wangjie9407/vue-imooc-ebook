@@ -9,6 +9,12 @@ $fontSize: 37.5;
     align-items: center;
 } 
 
+@mixin right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
 @mixin ellipsis {
     text-overflow: ellipsis;
     white-space: nowrap;

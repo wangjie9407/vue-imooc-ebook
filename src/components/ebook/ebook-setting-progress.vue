@@ -3,7 +3,7 @@
       <div class="setting-wrapper" v-show="menuVisible && settingVisible === 2">
         <div class="setting-progress">
             <div class="read-time-wrapper">
-                <span class="read-time-text">{{$t('book.haveRead').replace('$1',readTime)}}</span>    
+                <span class="read-time-text">{{getReadTime}}</span>    
                 <span class="icon-forward"> </span>    
             </div>
           <div class="progress-wrapper">
@@ -118,6 +118,7 @@
            }
            return sectionName
          },
+         
         },
     }
 </script>
