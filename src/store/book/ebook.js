@@ -24,9 +24,17 @@ const ebook = {
     // 阅读时间
     readTime: null,
     // 电子书封面图片
-    cover: null
+    cover: null,
+    // 电子书相关信息
+    metaData:null
   },
   mutations: {
+    /**
+     * 设置电子书相关信息
+     */
+    SET_METADATA(state, metaData) {
+      state.metaData = metaData
+    },
     /**
      * 设置电子书名称
      */
@@ -111,6 +119,9 @@ const ebook = {
     },
   },
   actions: {
+    setMetaData:({ commit }, metaData) => {
+      return commit('SET_METADATA',metaData)
+    },
     setFileName: ({ commit }, filename) => {
       return commit('SET_FILENAME', filename)
     },
@@ -165,6 +176,7 @@ const ebook = {
     section: state => state.section,
     readTime: state => state.readTime,
     cover: state => state.cover,
+    metaData: state => state.metaData,
   }
 }
 export default ebook

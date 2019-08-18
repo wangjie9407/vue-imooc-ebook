@@ -154,8 +154,10 @@ export default {
       this.book.loaded.cover.then(cover => {
         this.book.archive.createUrl(cover).then(cover => {
           this.setCover(cover)
-          console.log('');
         })
+      })
+      this.book.loaded.metadata.then(metaData => {
+        this.setMetaData(metaData)
       })
     },
     /**

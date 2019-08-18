@@ -20,3 +20,13 @@ $fontSize: 37.5;
     white-space: nowrap;
     overflow: hidden;
 }
+
+@mixin ellipsis2($line) {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $line;
+    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: hidden;
+    word-break: keep-all;
+}

@@ -17,13 +17,13 @@
                 <img :src="cover" class="slide-contents-book-img">
             </div>
             <div class="slide-contents-book-info-wrapper">
-                <div class="slide-contents-book-title"></div>
-                <div class="slide-contents-book-author"></div>
+                <div class="slide-contents-book-title">{{metaData.title}}</div>
+                <div class="slide-contents-book-author">{{metaData.creator}}</div>
             </div>
             <div class="slide-contents-book-progress-wrapper">
                 <div class="slide-contents-book-progress">
                     <span class="progress">{{progress + '%'}}</span>
-                    <div class="progress-text">{{$t('book.haveRead2')}}</div>
+                    <span class="progress-text">{{$t('book.haveRead2')}}</span>
                 </div>
                 <div class="slide-contents-book-time">{{getReadTime}}</div>
             </div>
@@ -55,6 +55,7 @@
 <style lang="scss" scoped>
 @import '../../assets/styles/global.scss';
 .ebook-slide-contents{
+    font-size: 0;
     width: 100%;
     .slide-contents-search-wrapper{
         display: flex;
@@ -88,6 +89,51 @@
            flex: 0 0 px2rem(50);
            font-size: px2rem(14);
            @include right; 
+        }
+    }
+    .slide-contents-book-wrapper{
+        display: flex;
+        width: 100%;
+        height: px2rem(90);
+        padding: px2rem(10) px2rem(15) px2rem(20) px2rem(15);
+        .slide-contents-book-img-wrapper{
+            flex:0 0 px2rem(45);
+            .slide-contents-book-img{
+                width: px2rem(45);
+                height: px2rem(60);
+            }
+        }
+        .slide-contents-book-info-wrapper{
+            flex: 1;
+            padding: 0 px2rem(10);
+            box-sizing: border-box;
+            .slide-contents-book-title{
+                font-size: px2rem(14);
+                width: px2rem(153.75);
+                line-height: px2rem(16);
+                @include ellipsis2(2);
+            }
+            .slide-contents-book-author{
+                width: px2rem(153.75);
+                @include ellipsis;
+                font-size: px2rem(12);
+                margin-top: px2rem(5);
+            }
+        }
+        .slide-contents-book-progress-wrapper{
+            flex:0 0 px2rem(80);
+            .slide-contents-book-progress{
+                .progress{
+                    font-size: px2rem(14);
+                }
+                .progress-text{
+                    font-size: px2rem(12);
+                }
+            }
+            .slide-contents-book-time{
+                margin-top: px2rem(5);
+                font-size: px2rem(12);
+            }
         }
     }
 }

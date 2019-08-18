@@ -17,7 +17,8 @@ export const EbookMixins = {
       'bookAvailable',
       'section',
       'readTime',
-      'cover'
+      'cover',
+      'metaData'
     ]),
     themeList() {
       return themeList(this)
@@ -41,7 +42,8 @@ export const EbookMixins = {
       'setBookAvailable',
       'setSection',
       'setReadTime',
-      'setCover'
+      'setCover',
+      'setMetaData'
     ]),
     /**
      * 刷新进度，保证设置章节时，进度条会实时刷新
