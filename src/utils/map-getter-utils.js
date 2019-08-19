@@ -18,7 +18,8 @@ export const EbookMixins = {
       'section',
       'readTime',
       'cover',
-      'metaData'
+      'metaData',
+      'navigation'
     ]),
     themeList() {
       return themeList(this)
@@ -43,18 +44,21 @@ export const EbookMixins = {
       'setSection',
       'setReadTime',
       'setCover',
-      'setMetaData'
+      'setMetaData',
+      'setNavigation'
     ]),
     /**
      * 刷新进度，保证设置章节时，进度条会实时刷新
      */
     refreshLocation() {
       const currentLocation = this.currentBook.rendition.currentLocation()
-      const startCfi = currentLocation.start.cfi
-      const currentProgress = this.currentBook.locations.percentageFromCfi(startCfi)
-      this.setProgress(Math.floor(currentProgress * 100))
-      this.setSection(currentLocation.start.index)
-      setBookStorage(this.fileName, 'location', startCfi)
+      if (currentLocation && currentLocation.start) {
+        const startCfi = currentLocation.start.cfi
+        const currentProgress = this.currentBook.locations.percentageFromCfi(startCfi)
+        this.setProgress(Math.floor(currentProgress * 100))
+        this.setSection(currentLocation.start.index)
+        setBookStorage(this.fileName, 'location', startCfi)
+      }
     },
     /**
      * 初始化电子书，根据缓存设置电子书的状态
@@ -63,7 +67,7 @@ export const EbookMixins = {
      */
     display(target,cb){
       if(target){
-        this.rendition.display(target).then(() => {
+        this.currentBook.rendition.display(target).then(() => {
           this.refreshLocation()
             if(cb){
               cb()

@@ -109,14 +109,14 @@
           * 获取章节名称
           */
           sectionName (val) {
-            let sectionName = ''
-           if(this.section){
-             const sectionInfo = this.currentBook.section(this.section)
-             if(sectionInfo && sectionInfo.href){
-               sectionName = this.currentBook.navigation.get(sectionInfo.href).label
-             }
-           }
-           return sectionName
+            // let sectionName = ''
+          //  if(this.section){
+          //    const sectionInfo = this.currentBook.section(this.section)
+          //    if(sectionInfo && sectionInfo.href){
+          //      sectionName = this.currentBook.navigation.get(sectionInfo.href).label
+          //    }
+          //  }
+           return this.section && this.navigation[this.section] ? this.navigation[this.section].label : ''
          },
          
         },

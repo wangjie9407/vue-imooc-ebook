@@ -14,6 +14,7 @@ import {
   getLocalStorage,
   setLocalStorage
 } from "../../utils/localstorage";
+import { flatten } from "../../utils/book-utils"
 
 global.ePub = EPub;
 export default {
@@ -151,13 +152,27 @@ export default {
      * 解析电子书
      */
     pareseBook(){
+      // 获取封面
       this.book.loaded.cover.then(cover => {
         this.book.archive.createUrl(cover).then(cover => {
           this.setCover(cover)
         })
       })
+      // 获取电子书相关信息
       this.book.loaded.metadata.then(metaData => {
         this.setMetaData(metaData)
+      })
+      // 获取目录
+      this.book.loaded.navigation.then(navigation => {
+        const navigationList =  flatten(navigation.toc)
+        const find = function(item,level=0){
+          return !item.parent ? level : find(navigationList.filter(navigationItem => navigationItem.id === item.item),++level)
+        }
+        navigationList.forEach(item => {
+          const level = find(item)
+          item['level'] = level
+        })
+        this.setNavigation(navigationList)
       })
     },
     /**

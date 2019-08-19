@@ -26,9 +26,17 @@ const ebook = {
     // 电子书封面图片
     cover: null,
     // 电子书相关信息
-    metaData:null
+    metaData:null,
+    // 电子书目录
+    navigation:[]
   },
   mutations: {
+    /**
+     * 设置电子书目录
+     */
+    SET_NAVIGATION(state, navigation) {
+      state.navigation = navigation
+    },
     /**
      * 设置电子书相关信息
      */
@@ -119,6 +127,9 @@ const ebook = {
     },
   },
   actions: {
+    setNavigation:({ commit }, navigation) => {
+      return commit('SET_NAVIGATION',navigation)
+    },
     setMetaData:({ commit }, metaData) => {
       return commit('SET_METADATA',metaData)
     },
@@ -177,6 +188,7 @@ const ebook = {
     readTime: state => state.readTime,
     cover: state => state.cover,
     metaData: state => state.metaData,
+    navigation: state => state.navigation
   }
 }
 export default ebook

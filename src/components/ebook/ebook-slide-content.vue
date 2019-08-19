@@ -27,15 +27,35 @@
                 </div>
                 <div class="slide-contents-book-time">{{getReadTime}}</div>
             </div>
+        
+        
         </div>
+        <scroll class="slide-contents-list"
+                :top="158"
+                :bottom="48"
+                ref="scroll">
+                <div class="slide-contents-item"
+                     v-for="(item,index) in navigation" :key="index" 
+                     :style="contentItemStyle(item.level)">
+                    <span :class="[{selected: section === index},'slide-contents-item-label']"
+                          @click="displayNavigation(item.href)">{{item.label}}</span>
+                    <span class="slide-contents-item-page"></span>
+                </div>
+        </scroll>
     </div>
 </template>
 
 <script>
+    import Scroll from '../common/Scroll'
+
     import {EbookMixins} from '../../utils/map-getter-utils'
+    import { px2rem } from '../../utils/css-utils'
     export default {
         name: 'EbookSlideContent',
         mixins: [EbookMixins],
+        components: {
+            Scroll,
+        },
         data() {
             return {
                 searchPage: false,
@@ -47,6 +67,16 @@
             },
             showSearchpage(){
                 this.searchPage = true
+            },
+            contentItemStyle(level){
+                return {
+                    marginLeft: `${px2rem(15 * level)}rem`
+                }
+            },
+            displayNavigation(target){
+                this.display(target,() => {
+                    this.hideEbookMenu()
+                })
             }
         },
     }
@@ -111,7 +141,7 @@
                 font-size: px2rem(14);
                 width: px2rem(153.75);
                 line-height: px2rem(16);
-                @include ellipsis2(2);
+                @include ellipsis2(3);
             }
             .slide-contents-book-author{
                 width: px2rem(153.75);
@@ -134,6 +164,22 @@
                 margin-top: px2rem(5);
                 font-size: px2rem(12);
             }
+        }
+    }
+    .slide-contents-list{
+        padding: 0 px2rem(15);
+        box-sizing: border-box;
+        .slide-contents-item{
+            display: flex;
+            font-size: px2rem(14);
+            line-height: px2rem(16);
+            .slide-contents-item-label{
+                flex: 1;
+                padding: px2rem(20) 0;
+                box-sizing: border-box;
+                @include ellipsis;
+            }
+            .slide-contents-item-page{}
         }
     }
 }
